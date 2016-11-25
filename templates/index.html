@@ -8,9 +8,10 @@
         width<input id='width'  name="width" type="number" value="10" step="1" min="1">
         height<input id='height' name="height" type="number" value="10" step="1" min="1">
         <button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value)">Generate</button>
+        <button type="button" method="POST">Submit</button>
     </form>
     <script>
-
+    
         var colour = "rgb(255, 255, 255)"
 
         function colourChange(element) {
@@ -29,14 +30,11 @@
         }
 
         function drawGrid(width, height) {
-            console.log('click')
             var element = document.getElementById("svg");
             element.parentNode.removeChild(element);
 
             var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             var svgNS = svg.namespaceURI;
-
-
 
             wide = 15;
             for (y = 0; y < height; y++) {
@@ -45,7 +43,7 @@
                     rect.setAttribute('onmousedown', 'colourChange(this)');
                     rect.setAttribute('x', wide * x);
                     rect.setAttribute('y', wide * y);
-                    rect.setAttribute('style','fill:#ffffff;');
+                    rect.setAttribute('style','fill:#ffffff; cursor:pointer;');
                     rect.setAttribute('width', wide);
                     rect.setAttribute('height', wide);
                     rect.setAttribute('stroke','#000000');

@@ -5,20 +5,27 @@
 </head>
 <body>
     <form>
-        width<input id='width'  name="width" type="number" value="1" step="1" min="1">
-        height<input id='height' name="height" type="number" value="1" step="1" min="1">
+        width<input id='width'  name="width" type="number" value="10" step="1" min="1">
+        height<input id='height' name="height" type="number" value="10" step="1" min="1">
         <button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value)">Generate</button>
     </form>
     <script>
 
+        var colour = "rgb(255, 255, 255)"
+
         function colourChange(element) {
-            console.log('blah')
-            if (element.style.fill == 'rgb(255, 255, 255)'){
-                element.style.fill = "rgb(0, 0, 0)"
+            if (element.style.fill == "rgb(255, 255, 255)"){
+                element.style.fill = "rgb(0, 0, 0)";
+                colour = "rgb(0, 0, 0)";
             }
             else {
-                element.style.fill = "rgb(255, 255, 255)"
+                element.style.fill = "rgb(255, 255, 255)";
+                colour = "rgb(255, 255, 255)";
             }
+        }
+
+        function continuedColourChange(element, colour) {
+            element.style.fill = colour;
         }
 
         function drawGrid(width, height) {
@@ -31,17 +38,22 @@
 
 
 
-            wide = 25;
+            wide = 15;
             for (y = 0; y < height; y++) {
                 for (x = 0; x < width; x++) {
                     var rect = document.createElementNS(svgNS, 'rect')
-                    rect.setAttribute('onclick', 'colourChange(this)');
+                    rect.setAttribute('onmousedown', 'colourChange(this)');
                     rect.setAttribute('x', wide * x);
                     rect.setAttribute('y', wide * y);
                     rect.setAttribute('style','fill:#ffffff;');
                     rect.setAttribute('width', wide);
                     rect.setAttribute('height', wide);
                     rect.setAttribute('stroke','#000000');
+                    rect.addEventListener("mouseover", function(e){
+                        if(e.buttons == 1 || e.buttons == 3){
+                            continuedColourChange(this, colour);
+                            }
+                        })
                     svg.appendChild(rect);
                     document.body.appendChild(svg);
                 }
@@ -54,6 +66,7 @@
     </script>
 
     <svg id="svg"></svg>
+
 
 </body>
 </html>

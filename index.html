@@ -5,12 +5,15 @@
 </head>
 <body>
     <form>
-        <input id='width' onload="drawGrid(this.value, getElementById('height').value)" onclick="drawGrid(this.value, getElementById('height').value)" name="width" type="number" value="1" step="1" min="1">
-        <input id='height' onload="drawGrid(this.value, getElementById('height').value)" onclick="drawGrid(getElementById('width').value, this.value)" name="height" type="number" value="1" step="1" min="1">
+        width<input id='width' onload="drawGrid(this.value, getElementById('height').value)" onclick="drawGrid(this.value, getElementById('height').value)" name="width" type="number" value="1" step="1" min="1">
+        height<input id='height' onload="drawGrid(this.value, getElementById('height').value)" onclick="drawGrid(getElementById('width').value, this.value)" name="height" type="number" value="1" step="1" min="1">
     </form>
     <script>
         var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         var svgNS = svg.namespaceURI;
+
+        var existx = 0;
+        var existy = 0;
 
         function colourChange(element) {
             console.log('blah')
@@ -23,23 +26,56 @@
         }
 
         function drawGrid(width, height) {
-            wide = 15
-            svg.setAttribute('width',  wide * width);
-            svg.setAttribute('height', wide * height);
-            for (y = 0; y < width; y++) {
-                for (x = 0; x < height; x++) {
+            wide = 15;
+            console.log(height - existy);
+            if (width > existx) {
+                for (y = 0; y < existy; y++) {
                     var rect = document.createElementNS(svgNS,'rect');
-                    rect.setAttribute('x', wide * x);
+                    rect.setAttribute('onClick', 'colourChange(this)');
+                    rect.setAttribute('x', wide * (width-1));
                     rect.setAttribute('y', wide * y);
+                    rect.setAttribute('style','fill:#ffffff;');
                     rect.setAttribute('width', wide);
                     rect.setAttribute('height', wide);
-                    rect.setAttribute('fill','#FFF');
-                    rect.setAttribute('onHover', 'colourChange(this)')
                     rect.setAttribute('stroke','#000');
                     svg.appendChild(rect);
                     document.body.appendChild(svg);
-                    }
+                }
             }
+
+            if (height > existy) {
+                for (x = 0; x < existx; x++) {
+                    var rect = document.createElementNS(svgNS,'rect');
+                    rect.setAttribute('onClick', 'colourChange(this)');
+                    rect.setAttribute('x', wide * x);
+                    rect.setAttribute('y', wide * (height-1));
+                    rect.setAttribute('style','fill:#ffffff;');
+                    rect.setAttribute('width', wide);
+                    rect.setAttribute('height', wide);
+                    rect.setAttribute('stroke','#000');
+                    svg.appendChild(rect);
+                    document.body.appendChild(svg);
+                }
+            }
+            /**for (y = existy; y < height - existy + 1; y++) {
+                for (x = existx; x < width - existx + 1; x++) {
+                    var rect = document.createElementNS(svgNS,'rect');
+                    rect.setAttribute('onClick', 'colourChange(this)');
+                    rect.setAttribute('x', wide * x);
+                    rect.setAttribute('y', wide * y);
+                    rect.setAttribute('style','fill:#ffffff;');
+                    rect.setAttribute('width', wide);
+                    rect.setAttribute('height', wide);
+                    rect.setAttribute('stroke','#000');
+                    svg.appendChild(rect);
+                    document.body.appendChild(svg);
+                }
+            }**/
+            existx = width;
+            existy = height;
+            svg.setAttribute('width',  wide * existx);
+            svg.setAttribute('height', wide * existy);
+            svg.setAttribute('id', 'svg');
         }
 
     </script>

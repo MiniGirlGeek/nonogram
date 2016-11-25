@@ -26,33 +26,35 @@
         }
 
         function drawGrid(width, height) {
-            wide = 15;
+            wide = 25;
             console.log(height - existy);
             if (width > existx) {
-                for (y = 0; y < existy; y++) {
-                    var rect = document.createElementNS(svgNS,'rect');
-                    rect.setAttribute('onClick', 'colourChange(this)');
-                    rect.setAttribute('x', wide * (width-1));
-                    rect.setAttribute('y', wide * y);
-                    rect.setAttribute('style','fill:#ffffff;');
-                    rect.setAttribute('width', wide);
-                    rect.setAttribute('height', wide);
-                    rect.setAttribute('stroke','#000');
-                    svg.appendChild(rect);
-                    document.body.appendChild(svg);
+                for (x = existx; x < width; x++){
+                    for (y = 0; y < existy; y++) {
+                        var rect = document.createElementNS(svgNS,'rect');
+                        rect.setAttribute('onClick', 'colourChange(this)');
+                        rect.setAttribute('x', wide * (width-1));
+                        rect.setAttribute('y', wide * y);
+                        rect.setAttribute('style','fill:#ffffff;');
+                        rect.setAttribute('width', wide);
+                        rect.setAttribute('height', wide);
+                        rect.setAttribute('stroke','#000');
+                        svg.appendChild(rect);
+                        document.body.appendChild(svg);
+                    }
                 }
             }
 
             if (height > existy) {
                 for (x = 0; x < existx; x++) {
                     var rect = document.createElementNS(svgNS,'rect');
-                    rect.setAttribute('onClick', 'colourChange(this)');
+                    rect.setAttribute('onclick', 'colourChange(this)');
                     rect.setAttribute('x', wide * x);
                     rect.setAttribute('y', wide * (height-1));
                     rect.setAttribute('style','fill:#ffffff;');
                     rect.setAttribute('width', wide);
                     rect.setAttribute('height', wide);
-                    rect.setAttribute('stroke','#000');
+                    rect.setAttribute('stroke','#000000');
                     svg.appendChild(rect);
                     document.body.appendChild(svg);
                 }
@@ -79,5 +81,8 @@
         }
 
     </script>
+    <svg>
+        <rect onClick="colourChange(this)" x="11.8" y="19.3" style="fill: #ffffff;" class="st0" width="4.7" height="4.7"/>
+    </svg>
 </body>
 </html>

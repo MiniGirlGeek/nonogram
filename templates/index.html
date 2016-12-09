@@ -4,16 +4,22 @@
     <title>Grid</title>
 </head>
 <body>
-    <form>
-        width<input id='width'  name="width" type="number" value="10" step="1" min="1">
-        height<input id='height' name="height" type="number" value="10" step="1" min="1">
-        <button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value)">Generate</button>
-        <button type="button" method="POST">Submit</button>
+    <form id="nonogram" method="post">
+		<fieldset>
+		<legend>Nonogram Creator</legend>
+			width<input id='width'  name="width" type="number" value="10" step="1" min="1">
+			height<input id='height' name="height" type="number" value="10" step="1" min="1">
+			cell size<input id='length' name='length' type="number" value="15" step="5" min="5" max="50">
+			<button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value, getElementById('length').value)">Generate</button>
+			<button type="button" onclick="post()">Submit</button>
+			<div id = 'grid'>
+				<svg id="svg"></svg>
+			</div>
+		</fieldset>
     </form>
-    
-    <script src="../scripts/main.js"></script>
 
-    <svg id="svg"></svg>
+    <script src="../static/scripts/main.js"></script>
+
 
 
 </body>

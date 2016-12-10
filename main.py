@@ -1,11 +1,14 @@
 from flask import Flask, request, render_template
+#import svgwrite
 app = Flask(__name__)
 
 def switch(grid):
 	new_grid = []
-	for y in range(len(grid)):
+	width = len(grid)
+	height = len(grid[0])
+	for y in range(height):
 		row = []
-		for x in range(len(grid[y])):
+		for x in range(width):
 			row.append(0)
 		new_grid.append(row)
 
@@ -51,7 +54,7 @@ def draw_puzzle(inp):
 	colvalues = find_groups(switch(grid))
 
 	#create a svg element to return
-	
+
 	return str((rowvalues, colvalues))
 
 

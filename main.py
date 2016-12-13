@@ -6,6 +6,7 @@ svgtemplate = '''
 <svg id="puzzle_template" width="{0}" height="{1}">
 	{2}
 </svg>
+<script src="../static/scripts/main.js"></script>
  '''
 
 recttemplate = '''
@@ -18,17 +19,20 @@ texttemplate = '''
 	{3}
 '''
 
+celltemplate = '''
+	<rect x="{0}"  y="{1}" width="{2}" height={2} stroke="#000000" style="cursor:pointer;" fill="white" onmousedown="colourChange(this)"></rect>
+	{3}
+'''
+
 def draw_grid(data):
 	rowval = data[0][:]
 	rowdat = data[0][:]
 	rowval.sort(key=lambda x: len(x))
 	colval = data[1][:]
 	coldat = data[1][:]
-	print(coldat)
 	colval.sort(key=lambda x: len(x))
 	rowvallen = len(rowval[-1])
 	colvallen = len(colval[-1])
-	print(coldat)
 	width = (int(request.form['width']) + rowvallen) * int(request.form['length'])
 	height = (int(request.form['height']) + colvallen) * int(request.form['length'])
 	grid = svgtemplate.format(width, height, '{0}')
@@ -42,10 +46,12 @@ def draw_grid(data):
 	#display column values
 	startx = rowvallen * int(request.form['length'])
 	xpos = startx
-	starty = colvallen * int(request.form['length'])
+	starty = (colvallen -1) * int(request.form['length'])
 	ypos = starty
+	rev = False
 	for y in range(colvallen):
 		for x in range(int(request.form['width'])):
+			coldat[x][::-1]
 			try:
 				text = texttemplate.format(xpos + (int(request.form['length']) / 2),
 										   ypos + 12,
@@ -55,16 +61,18 @@ def draw_grid(data):
 			except:
 				pass
 			xpos += int(request.form['length'])
+		rev = False
 		xpos = startx
 		ypos -= int(request.form['length'])
 
 	#display row values
-	startx = int(request.form['length'])
+	startx = (rowvallen - 1) * int(request.form['length'])
 	xpos = startx
-	starty = (colvallen + 1) * int(request.form['length'])
+	starty = (colvallen) * int(request.form['length'])
 	ypos = starty
-	for y in range(rowvallen):
-		for x in range(int(request.form['width'])):
+	for x in range(int(request.form['width'])):
+		rowdat[x].reverse()
+		for y in range(rowvallen):
 			try:
 				text = texttemplate.format(xpos + (int(request.form['length']) / 2),
 										   ypos + 12,
@@ -77,7 +85,19 @@ def draw_grid(data):
 		xpos = startx
 		ypos += int(request.form['length'])
 
+	#draw the grid area
+	xpos = startx
+	starty = (colvallen -1) * int(request.form['length'])
+	ypos = starty
+	for x in range(int(request.form['width'])):
+		for y in range(int(request.form['height'])):
+			cell = recttemplate.format(xpos, ypos, int(request.form['length']), {0})
+			grid = grid.format(rect, '{0}')
+			xpos -= int(request.form['length'])
+		xpos = startx
+		ypos += int(request.form['length'])
 	return grid
+
 
 
 def switch(grid):

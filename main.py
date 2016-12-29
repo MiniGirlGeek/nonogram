@@ -8,7 +8,7 @@ def index():
 
 @app.route('/solve')
 def solve():
-		return render_template('index.html')
+		return render_template('solve.html')
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -19,8 +19,8 @@ def create():
 
 @app.route('/login')
 def login():
-		return render_template('index.html')
+		return render_template('login.html')
 
-@app.route('/signup')
+@app.route('/sign-up')
 def signup():
-		return render_template('index.html')
+		return render_template('signup.html')

@@ -46,7 +46,7 @@ def grid(data, width, height):
         for col in range(width):
             try:
                 offset = 15 * (largest_y - len(col_data[xpos]))
-                text = texttemplate.format(x + 7.5, y + 10 + offset, col_data[xpos][i], '{0}')
+                text = texttemplate.format(x + 7.5, y + 11 + offset, col_data[xpos][i], '{0}')
                 rect = recttemplate.format(x, y + offset, 15, text)
                 grid = grid.format(rect)
             except:

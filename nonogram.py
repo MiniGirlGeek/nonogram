@@ -61,6 +61,7 @@ def populate_grid(data):
     width = int(data.form['width'])
     height = int(data.form['height'])
     data_items = data.form['data']
+    print(data_items)
     i = 0
     grid = []
     for y in range(height):

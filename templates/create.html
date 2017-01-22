@@ -1,16 +1,24 @@
 {%include 'header.html'%}
-    <form id="nonogram" method="post">
-		<fieldset>
-		<legend>Nonogram Creator</legend>
-			width<input id='width'  name="width" type="number" value="10" step="1" min="1">
-			height<input id='height' name="height" type="number" value="10" step="1" min="1">
-			cell size<input id='length' name='length' type="number" value="15" step="5" min="5" max="50">
-			<button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value, getElementById('length').value)">Generate</button>
-			<button type="button" onclick="post()">Submit</button>
-			<div id = 'grid'>
-				<svg id="svg"></svg>
-			</div>
-		</fieldset>
+    <form id="nonogram" method="post" width="500px">
+		  <fieldset>
+    		<legend>Nonogram Creator</legend>
+        <div>
+          <div id = 'grid' style="display:inline-block;">
+            <svg id="svg"></svg>
+          </div>
+          <div id="puzzle-info" style="display:inline-block; float: right; width: 200px;">
+            Title: <input id="title" name='title' type="text" required>
+            <br/>
+            Width: <input id='width'  name="width" type="number" value="10" step="1" min="1">
+            <br/>
+            Height: <input id='height' name="height" type="number" value="10" step="1" min="1">
+            <br/>
+            Cell Size: <input id='length' name='length' type="number" value="15" step="5" min="5" max="50">
+            <button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value, getElementById('length').value)">Generate New Grid</button>
+      			<button type="button" onclick="post()">Save</button>
+          </div>
+        </div>
+  		</fieldset>
     </form>
 
     <script src="../static/scripts/main.js"></script>

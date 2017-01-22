@@ -78,6 +78,8 @@ function drawGrid(width, height, wide) {
 					})
 				svg.appendChild(rect);
 				document.getElementById('grid').appendChild(svg);
+        document.getElementById('grid').setAttribute('width', wide);
+        document.getElementById('grid').setAttribute('height', wide);
 			}
 			rows.push(row);
 		}

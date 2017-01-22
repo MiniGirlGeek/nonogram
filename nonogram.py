@@ -1,10 +1,11 @@
 import draw
 
-def process(data, width, height):
+def turn_into_template(data, width, height):
     '''takes the 2D array and creates puzzle data from it'''
     row_data = get_row_data_from(data, width)
     col_data = get_col_data_from(data, height)
-    return(draw.grid((row_data, col_data), width, height))
+    return [row_data, col_data]
+    #return(draw.grid((row_data, col_data), width, height))
 
 def get_row_data_from(data, width):
     '''reads the data left to right for each row'''
@@ -56,18 +57,14 @@ def find_groups(data, splitval):
         groups.append([0])
     return groups
 
-def populate_grid(data):
+def process(data, width, height):
     '''takes the data recieved from the POST method and reconstructs an 2D array from it'''
-    width = int(data.form['width'])
-    height = int(data.form['height'])
-    data_items = data.form['data']
-    print(data_items)
     i = 0
     grid = []
     for y in range(height):
         row = []
         for x in range(width):
-            row.append(int(data_items[i*2]))
+            row.append(int(data[i*2]))
             i += 1
         grid.append(row)
-    return process(grid, width, height)
+    return grid

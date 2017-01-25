@@ -1,9 +1,10 @@
 from flask import Flask, request, render_template
 from flask import make_response
-import pymysql
+import pymysql, draw
 import nonogram, random, database
 from flask.ext.mysql import MySQL
 from flask.ext.flask_bcrypt import Bcrypt
+import ast
 
 def generate_salt():
 	chars = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-=[];\,./`!@£$%^&*()_+}{:|<>?~"`'
@@ -27,7 +28,15 @@ def index():
 
 @app.route('/solve')
 def solve():
-		return render_template('solve.html')
+	conn = mysql.connect()
+	puzzles = '<div id = puzzles>{0}</div>'
+	for puzzle in database.get_all_puzzles(conn):
+		data = ast.literal_eval(puzzle[2])
+		width = puzzle[3]
+		height = puzzle[4]
+		puzzles = puzzles.format(draw.puzzle_prev(data, width, height) + '{0}')
+	puzzles.format('')
+	return render_template("solve.html",puzzles=puzzles)
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -42,7 +51,6 @@ def create():
 			mg = "Please log in."
 			return render_template("result.html",msg=mg)
 		if not expired:
-			authorID = 5
 			title = request.form['title']
 			width = int(request.form['width'])
 			height = int(request.form['height'])

@@ -45,3 +45,9 @@ def getuserID(conn, cookie):
         expired = True
         print('true')
     return expired, userID
+
+def get_all_puzzles(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT puzzleID, authorID, template, width, height FROM puzzles")
+    result = cursor.fetchall()
+    return result

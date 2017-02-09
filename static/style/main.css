@@ -1,0 +1,47 @@
+ul#navbar {
+  padding: 0px;
+}
+
+ul#navbar li {
+  display: inline;
+  margin: 0px 2px 0px 2px;
+  padding: 0px 2px;
+  color: black;
+}
+
+ul#navbar li a:hover {
+  border-bottom: 2px solid black;
+  color: black;
+}
+
+ul#navbar li a {
+  text-decoration: none;
+  color: dimgray;
+}
+
+.puzzle_template {border: solid transparent;
+  border-width: 24px;
+  /*border-radius: 40px;*/
+  padding: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 50px;
+  -webkit-border-image: url('/static/images/pixel-frame.svg') 25%  stretch; /* Safari 3.1-5 */
+  -o-border-image: url('/static/images/pixel-frame.svg') 25%  stretch; /* Opera 11-12.1 */
+  border-image: url('/static/images/pixel-frame.svg') 25%  stretch;
+}
+
+div.puzzle_frame {
+  float: left;
+}
+
+div.puzzle_frame::before {
+  content: url("/static/images/pixel-frame-decorator.svg");
+  position: relative;
+  width: 100px;
+  height: 32px;
+  bottom:-12px;
+  left: 50%;
+  margin-left: -50px;
+  display: block;
+}

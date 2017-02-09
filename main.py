@@ -29,14 +29,24 @@ def index():
 @app.route('/solve')
 def solve():
 	conn = mysql.connect()
-	puzzles = '<div id = puzzles>{0}</div>'
+	puzzles = '<div id="puzzles">{0}</div>'
 	for puzzle in database.get_all_puzzles(conn):
 		data = ast.literal_eval(puzzle[2])
 		width = puzzle[3]
 		height = puzzle[4]
-		puzzles = puzzles.format(draw.puzzle_prev(data, width, height) + '{0}')
+		puzz_id = puzzle[0]
+		puzzles = puzzles.format(draw.puzzle_prev(puzz_id, data, width, height) + '{0}')
 	puzzles.format('')
 	return render_template("solve.html",puzzles=puzzles)
+
+@app.route('/solve/<puzz_id>')
+def solve_env(puzz_id):
+	conn = mysql.connect()
+	puzz_info = database.get_puzzle_with_id(puzz_id, conn)
+	data = ast.literal_eval(puzz_info[0])
+	width = puzz_info[1]
+	height = puzz_info[2]
+	return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height))
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():

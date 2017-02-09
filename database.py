@@ -51,3 +51,9 @@ def get_all_puzzles(conn):
     cursor.execute("SELECT puzzleID, authorID, template, width, height FROM puzzles")
     result = cursor.fetchall()
     return result
+
+def get_puzzle_with_id(puzz_id, conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT template, width, height FROM puzzles WHERE puzzleid={0};".format(puzz_id))
+    result = cursor.fetchone()
+    return result

@@ -1,0 +1,6 @@
+bcrypt
+Flask
+Flask-Bcrypt
+Flask-MySQL
+PyMySQL
+Jinja2

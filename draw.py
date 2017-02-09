@@ -1,5 +1,4 @@
-
-def puzzle_prev(data, width, height):
+def puzz_temp(data, width, height):
 	svgtemplate = '''
 	<svg class="puzzle_template" width="{0}" height="{1}">
 	{2}
@@ -81,6 +80,44 @@ def puzzle_prev(data, width, height):
 	#draw grid
 	startx = largest_x * 15
 	starty = largest_y * 15
+	x = startx
+	y = starty
+	for row in range(height):
+		for col in range(width):
+			cell = celltemplate.format(x, y, 15, '{0}')
+			grid = grid.format(cell)
+			x += 15
+		y += 15
+		x = startx
+	grid = grid.format('')
+	return grid
+
+
+def puzzle_prev(puzz_id, data, width, height):
+	svgtemplate = '''
+	<a href="/solve/{0}">
+	<div class="puzzle_frame" width="{1}" height="{2}">
+	<svg class="puzzle_template" width="{1}" height="{2}">
+	{3}
+	</svg>
+	</div>
+	</a>
+	'''
+
+	celltemplate = '''
+	<rect x="{0}"  y="{1}" width="{2}" height={2} stroke="#000000" style="cursor:pointer;" fill="white"></rect>
+	{3}
+	'''
+
+	row_data = data[0][:]
+	col_data = data[1][:]
+
+	grid = svgtemplate.format(puzz_id, 15 * width, 15 * height, '{0}')
+
+
+	#draw grid
+	startx = 0
+	starty = 0
 	x = startx
 	y = starty
 	for row in range(height):

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Grid</title>
-    <link rel="stylesheet" type="text/css" href="/static/style/main.css">
+	<title>Grid</title>
+	<link rel="stylesheet" type="text/css" href="/static/style/main.css">
 </head>
 <body>
-    <ul id="navbar">
-        <li><a href="/">home</a></li>
-        <li><a href="/solve">solve</a></li>
-        <li><a href="/create">create</a></li>
-        <li><a href="/login">login</a></li>
-        <li><a href="/sign-up">sign up</a></li>
-    </ul>
+	<div id=container>
+	<div id="header">
+	<ul id="navbar">
+		<li><a href="/">home</a></li>
+		<li><a href="/puzzle-gallery/0">puzzle-gallery</a></li>
+		{{links|safe}}
+	</ul>
+	</div>
+	<div id="body">

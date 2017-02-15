@@ -6,12 +6,6 @@ from flask.ext.mysql import MySQL
 from flask.ext.flask_bcrypt import Bcrypt
 import ast
 
-def generate_salt():
-	chars = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-=[];\,./`!@£$%^&*()_+}{:|<>?~"`'
-	salt = ''
-	for i in range(32):
-		salt += random.choice(chars)
-	return salt
 
 app = Flask(__name__)
 mysql = MySQL()
@@ -22,22 +16,51 @@ app.config['MYSQL_DATABASE_DB'] = "nonogram"
 bcrypt = Bcrypt(app)
 mysql.init_app(app)
 
+loggedin = '''<li><a href="/create">create</a></li>
+			  <li><a href="/logout">logout</a></li>'''
+
+loggedout = '''<li><a href="/login">login</a></li>
+			   <li><a href="/sign-up">sign up</a></li>'''
+
+def check_for_cookie():
+	try:
+		conn = mysql.connect()
+		cookie = request.cookies.get('user')
+		data = database.getuserID(conn, cookie)
+		signedin = data[0]
+		authorID = data[1]
+		username = data[2]
+		if signedin:
+			return loggedin, authorID, username
+		else:
+			return loggedout, authorID, username
+	except:
+		return loggedout, None, None
+
+def generate_salt():
+	chars = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-=[];\,./`!@£$%^&*()_+}{:|<>?~"`'
+	salt = ''
+	for i in range(32):
+		salt += random.choice(chars)
+	return salt
+
 @app.route('/')
 def index():
-		return render_template('index.html')
+	return render_template('index.html', links=check_for_cookie()[0])
 
-@app.route('/solve')
-def solve():
+@app.route('/puzzle-gallery/<puzz_index>')
+def get_puzzles(puzz_index):
+	puzz_index = int(puzz_index)
 	conn = mysql.connect()
-	puzzles = '<div id="puzzles">{0}</div>'
-	for puzzle in database.get_all_puzzles(conn):
-		data = ast.literal_eval(puzzle[2])
-		width = puzzle[3]
-		height = puzzle[4]
-		puzz_id = puzzle[0]
-		puzzles = puzzles.format(draw.puzzle_prev(puzz_id, data, width, height) + '{0}')
-	puzzles.format('')
-	return render_template("solve.html",puzzles=puzzles)
+	puzzles = database.get_all_puzzles(conn)
+	puzz_temp = '<div id="puzzle">{0}</div>'
+	puzzle = puzzles[puzz_index]
+	data = ast.literal_eval(puzzle[2])
+	width = puzzle[3]
+	height = puzzle[4]
+	puzz_id = puzzle[0]
+	puzz_temp = puzz_temp.format(draw.puzzle_prev(puzz_index, len(puzzles), puzz_id, data, width, height))
+	return render_template("solve.html",puzzle=puzz_temp, links=check_for_cookie()[0])
 
 @app.route('/solve/<puzz_id>')
 def solve_env(puzz_id):
@@ -46,44 +69,32 @@ def solve_env(puzz_id):
 	data = ast.literal_eval(puzz_info[0])
 	width = puzz_info[1]
 	height = puzz_info[2]
-	return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height))
+	return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height), links=check_for_cookie()[0])
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
 	if request.method == 'POST':
-		try:
-			conn = mysql.connect()
-			cookie = request.cookies.get('user')
-			data = database.getuserID(conn, cookie)
-			expired = data[0]
-			authorID = data[1]
-		except:
-			mg = "Please log in."
-			return render_template("result.html",msg=mg)
-		if not expired:
-			title = request.form['title']
-			width = int(request.form['width'])
-			height = int(request.form['height'])
-			answer = request.form['data']
-			data = nonogram.process(request.form['data'], width, height)
-			puzztemplate = nonogram.turn_into_template(data, width, height)
-			database.submit_new_puzzle(conn, authorID, title, puzztemplate, answer, width, height)
-			mg = "Success! Thank you for your contribution."
-			return render_template("result.html",msg=mg)
-		else:
-			mg = 'Your session has expired, please log in again.'
-			return render_template("result.html",msg=mg)
-			#return render_template('puzzle.html', puzzle=nonogram.populate_grid(request))
+		result = check_for_cookie()
+		userID = result[1]
+		title = request.form['title']
+		width = int(request.form['width'])
+		height = int(request.form['height'])
+		answer = request.form['data']
+		data = nonogram.process(request.form['data'], width, height)
+		puzztemplate = nonogram.turn_into_template(data, width, height)
+		database.submit_new_puzzle(conn, authorID, title, puzztemplate, answer, width, height)
+		mg = "Success! Thank you for your contribution."
+		return render_template("result.html", msg=mg, links=check_for_cookie()[0])
 	else:
-		return render_template('create.html')
+		return render_template('create.html', links=check_for_cookie()[0])
 
 @app.route('/login')
 def login():
-		return render_template('login.html')
+		return render_template('login.html', links=check_for_cookie()[0])
 
 @app.route('/sign-up')
 def signup():
-		return render_template('signup.html')
+		return render_template('signup.html', links=check_for_cookie()[0])
 
 @app.route('/addrec',methods = ['POST', 'GET'])
 def addrec():
@@ -105,9 +116,7 @@ def addrec():
 			msg = "Sorry that username is already taken! Please try again."
 		finally:
 			conn.close()
-			return  render_template("result.html",msg = msg)
-
-
+			return render_template("result.html",msg=msg, links=check_for_cookie()[0])
 
 @app.route('/check_login',methods = ['POST', 'GET'])
 def check_login():
@@ -118,12 +127,20 @@ def check_login():
 			conn = mysql.connect()
 			cookie = generate_salt()
 			mg = "Welcome " + database.check_login(conn, unm, pswd, bcrypt)
-			response = make_response(render_template("result.html",msg = mg))
 			database.add_cookie(conn, cookie, unm)
+			response = make_response(render_template("result.html",msg = mg, links=loggedin))
 			response.set_cookie('user', cookie)
 		except TypeError:
 			mg = "That username does not exist."
-			response = make_response(render_template("result.html",msg = mg))
-			conn.rollback()
+			response = make_response(render_template("result.html",msg = mg, links=check_for_cookie()[0]))
 		finally:
+			conn.rollback()
 			return response
+
+@app.route('/logout')
+def log_out():
+	conn = mysql.connect()
+	cookie = request.cookies.get('user')
+	database.log_out_of_site(conn, cookie)
+	msg = "<h1>Success</h1> <p>You've been successfully logged out.</p>"
+	return render_template("result.html", msg=msg, links=check_for_cookie()[0])

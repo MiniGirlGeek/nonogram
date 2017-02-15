@@ -93,15 +93,19 @@ def puzz_temp(data, width, height):
 	return grid
 
 
-def puzzle_prev(puzz_id, data, width, height):
+def puzzle_prev(puzz_index, puzz_no, puzz_id, data, width, height):
 	svgtemplate = '''
-	<a href="/solve/{0}">
-	<div class="puzzle_frame" width="{1}" height="{2}">
-	<svg class="puzzle_template" width="{1}" height="{2}">
-	{3}
+	<div class="gallery">
+	<a href="{0}"><button>previous</button></a>
+	<a href="/solve/{1}">
+	<div class="puzzle_frame" width="{2}" height="{3}">
+	<svg class="puzzle_template" width="{2}" height="{3}">
+	{4}
 	</svg>
 	</div>
 	</a>
+	<a href="{5}"><button>next</button></a>
+	</div>
 	'''
 
 	celltemplate = '''
@@ -112,7 +116,7 @@ def puzzle_prev(puzz_id, data, width, height):
 	row_data = data[0][:]
 	col_data = data[1][:]
 
-	grid = svgtemplate.format(puzz_id, 15 * width, 15 * height, '{0}')
+	grid = svgtemplate.format((puzz_index - 1) % puzz_no, puzz_id, 15 * width, 15 * height, '{0}', (puzz_index + 1) % puzz_no)
 
 
 	#draw grid

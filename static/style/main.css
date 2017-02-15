@@ -1,5 +1,55 @@
+html, body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#navbar {
+  width: 85%;
+  margin: 10px auto;
+}
+#container {
+  min-height: 100%;
+  position:relative;
+}
+#header {
+  background: whitesmoke;
+  padding: 1px 30px 1px 0px;
+  margin: 0px;
+  box-shadow: 0px 2px 5px dimgrey;
+}
+
+#body {
+  width: 85%;
+  margin: auto;
+  padding: 10px;
+  min-height: 100%;
+  padding-bottom: 30px;   /* Height of the footer */
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  height: 30px;   /* Height of the footer */
+  background: black;
+  padding: 5px;
+}
+
 ul#navbar {
   padding: 0px;
+}
+
+.gallery {
+  float: left;
+  margin-left: auto;
+  margin-right: auto;
+  position:relative;
+}
+
+.gallery a {
+  display: inline-block;
 }
 
 ul#navbar li {
@@ -10,7 +60,6 @@ ul#navbar li {
 }
 
 ul#navbar li a:hover {
-  border-bottom: 2px solid black;
   color: black;
 }
 
@@ -29,6 +78,7 @@ ul#navbar li a {
   -webkit-border-image: url('/static/images/pixel-frame.svg') 25%  stretch; /* Safari 3.1-5 */
   -o-border-image: url('/static/images/pixel-frame.svg') 25%  stretch; /* Opera 11-12.1 */
   border-image: url('/static/images/pixel-frame.svg') 25%  stretch;
+  margin-bottom: 15px;
 }
 
 div.puzzle_frame {

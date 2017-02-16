@@ -1,6 +1,11 @@
 {%include 'header.html'%}
 <H1> Now Solve It</h1>
+<form method="post" id="nonogram">
+	<button type="button" onclick="post()">Check Solution</button>
+</form>
+<div id="debug">
 {{puzzles|safe}}
+</div>
 <script type='text/javascript'>
 var rows = {{rows|tojson|safe}}['rows'];
 </script>

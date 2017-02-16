@@ -1,12 +1,13 @@
   /*                    /
  / Variable definition /
 /                    */
-var colour = "rgb(0, 0, 0)"
+var colourIndex = 0;
 var row;
 var rows;
-var state = 0;
+var nextState;
 var wide = 15;
 var coords;
+var colours = ["rgb(255, 255, 255)", "rgb(0, 0, 0)", "url(#cross)"]
 
 function format2D(a) {
     var str="";
@@ -18,35 +19,41 @@ function format2D(a) {
 }
 
 /*Function definition*/
-function updateRows(state, element) {
-	/*gets the coordinates of the cell that has just been clicked*/
+function updateRows(nextState, element) {
 	coords = JSON.parse(element.id);
-	/*updates the row grid to reflect the new state of that cell*/
-	rows[coords[1]][coords[0]] = state;
+	rows[coords[1]][coords[0]] = colourIndex;
+}
+
+function post() {
+		for (var r = 0; r < rows.length; r++) {
+				for (var c = 0; c < rows[r].length; c++) {
+						if (rows[r][c] == 2) {
+							rows[r][c] = 0;
+						}
+				}
+		}
+		
+		var form = document.getElementById("nonogram");
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", "data");
+		hiddenField.setAttribute("value", rows);
+		form.appendChild(hiddenField);
+		form.submit();
 }
 
 function colourChange(element) {
-	/*checks to see what the current colour of the cell is*/
-		if (element.style.fill == "rgb(0, 0, 0)"){
-		/*flips it's colour*/
-		/*updates the state and colour variable accordingly*/
-				colour = "rgb(255, 255, 255)";
-				state = 0;
-		/*updates the cell's fill*/
-				element.style.fill = colour;
-				updateRows(state, element);
-		}
-		else {
-				colour = "rgb(0, 0, 0)";
-				state = 1;
-				element.style.fill = colour;
-				updateRows(state, element);
-		}
+		coords = JSON.parse(element.id);
+		var currentState = rows[coords[1]][coords[0]];
+		nextState = (currentState + 1) % 3;
+		colourIndex = nextState;
+		updateRows(colourIndex, element)
+		element.style.fill = colours[colourIndex];
 }
 
-function continuedColourChange(element, colour) {
-		element.style.fill = colour;
-		updateRows(state, element);
+function continuedColourChange(element, colourIndex) {
+		element.style.fill = colours[colourIndex];
+		updateRows(colourIndex, element);
 }
 
 var puzzleTemplate = document.getElementById('puzzle_temp');
@@ -56,7 +63,7 @@ function dragged(e) {
 		if (e.target !== e.currentTarget) {
 				if (e.target.id != ""){
 					if(e.buttons == 1 || e.buttons == 3){
-						continuedColourChange(e.target, colour);
+						continuedColourChange(e.target, colourIndex);
 					};
 				}
 		}

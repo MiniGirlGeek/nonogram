@@ -62,22 +62,33 @@ def get_puzzles(puzz_index):
 	puzz_temp = puzz_temp.format(draw.puzzle_prev(puzz_index, len(puzzles), puzz_id, data, width, height))
 	return render_template("solve.html",puzzle=puzz_temp, links=check_for_cookie()[0])
 
-@app.route('/solve/<puzz_id>')
+@app.route('/solve/<puzz_id>', methods=['POST', 'GET'])
 def solve_env(puzz_id):
-	conn = mysql.connect()
-	puzz_info = database.get_puzzle_with_id(puzz_id, conn)
-	data = ast.literal_eval(puzz_info[0])
-	width = puzz_info[1]
-	height = puzz_info[2]
-	thisrows = []
-	newrow = []
-	for cell in range(width):
-		newrow.append(0)
-	for row in range(height):
-		thisrows.append(newrow)
-	return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height), links=check_for_cookie()[0], rows={'rows':thisrows})
+	if request.method == "POST":
+		conn = mysql.connect()
+		their_solution = request.form['data']
+		puzz_info = database.get_puzzle_with_id(puzz_id, conn)
+		solution = puzz_info[3]
+		if their_solution == solution:
+			mg = "<h1>Success</h1>"
+		else:
+			mg = "<h1>Sorry, Try Again</h1>"
+		return render_template("result.html", msg=mg, links=check_for_cookie()[0])
+	else:
+		conn = mysql.connect()
+		puzz_info = database.get_puzzle_with_id(puzz_id, conn)
+		data = ast.literal_eval(puzz_info[0])
+		width = puzz_info[1]
+		height = puzz_info[2]
+		thisrows = []
+		newrow = []
+		for cell in range(width):
+			newrow.append(0)
+		for row in range(height):
+			thisrows.append(newrow)
+		return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height), links=check_for_cookie()[0], rows={'rows':thisrows})
 
-@app.route('/create', methods=['GET', 'POST'])
+@app.route('/create', methods=['POST', 'GET'])
 def create():
 	if request.method == 'POST':
 		result = check_for_cookie()
@@ -102,7 +113,7 @@ def login():
 def signup():
 		return render_template('signup.html', links=check_for_cookie()[0])
 
-@app.route('/addrec',methods = ['POST', 'GET'])
+@app.route('/addrec', methods=['POST', 'GET'])
 def addrec():
 	'''runs the SQL to make a new user, then renders a page
 	   based upon whether it was successful or not'''
@@ -124,7 +135,7 @@ def addrec():
 			conn.close()
 			return render_template("result.html",msg=msg, links=check_for_cookie()[0])
 
-@app.route('/check_login',methods = ['POST', 'GET'])
+@app.route('/check_login', methods=['POST', 'GET'])
 def check_login():
 	if request.method == 'POST':
 		try:
@@ -136,6 +147,9 @@ def check_login():
 			database.add_cookie(conn, cookie, unm)
 			response = make_response(render_template("result.html",msg = mg, links=loggedin))
 			response.set_cookie('user', cookie)
+		except NameError:
+			mg = "That password is incorrect."
+			response = make_response(render_template("result.html",msg = mg, links=check_for_cookie()[0]))
 		except TypeError:
 			mg = "That username does not exist."
 			response = make_response(render_template("result.html",msg = mg, links=check_for_cookie()[0]))

@@ -1,6 +1,11 @@
 def puzz_temp(data, width, height):
 	svgtemplate = '''
 	<svg id="puzzle_temp" width="{0}" height="{1}">
+	<defs>
+  		<pattern id="cross" patternUnits="userSpaceOnUse" width="15" height="15">
+    	<image xlink:href="/static/images/cross.svg" x="0" y="0" width="15" height="15" />
+  	</pattern>
+	</defs>
 	{2}
 	</svg>
 	'''

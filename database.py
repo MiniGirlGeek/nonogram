@@ -16,7 +16,9 @@ def check_login(conn, username, password, bcrypt):
 	user = cursor.fetchone()
 	salt = user[1]
 	pswd = password + salt
-	bcrypt.check_password_hash(user[0], pswd)
+	valid = bcrypt.check_password_hash(user[0], pswd)
+	if not valid:
+		raise NameError('invalid password')
 	return user[2]
 
 def submit_new_puzzle(conn, authorID, title, template, answer, width, height):
@@ -54,7 +56,7 @@ def get_all_puzzles(conn):
 
 def get_puzzle_with_id(puzz_id, conn):
 	cursor = conn.cursor()
-	cursor.execute("SELECT template, width, height FROM puzzles WHERE puzzleid={0};".format(puzz_id))
+	cursor.execute("SELECT template, width, height, answer FROM puzzles WHERE puzzleid={0};".format(puzz_id))
 	result = cursor.fetchone()
 	return result
 

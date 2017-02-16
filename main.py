@@ -69,7 +69,13 @@ def solve_env(puzz_id):
 	data = ast.literal_eval(puzz_info[0])
 	width = puzz_info[1]
 	height = puzz_info[2]
-	return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height), links=check_for_cookie()[0])
+	thisrows = []
+	newrow = []
+	for cell in range(width):
+		newrow.append(0)
+	for row in range(height):
+		thisrows.append(newrow)
+	return render_template("solve_env.html", puzzles=draw.puzz_temp(data, width, height), links=check_for_cookie()[0], rows={'rows':thisrows})
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():

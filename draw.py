@@ -1,6 +1,6 @@
 def puzz_temp(data, width, height):
 	svgtemplate = '''
-	<svg class="puzzle_template" width="{0}" height="{1}">
+	<svg id="puzzle_temp" width="{0}" height="{1}">
 	{2}
 	</svg>
 	'''
@@ -16,8 +16,8 @@ def puzz_temp(data, width, height):
 	'''
 
 	celltemplate = '''
-	<rect x="{0}"  y="{1}" width="{2}" height={2} stroke="#000000" style="cursor:pointer;" fill="white" onmousedown="colourChange(this)"></rect>
-	{3}
+	<rect x="{0}"  y="{1}" width="{2}" height={2} id="[{3},{4}]"stroke="#000000" style="cursor:pointer;" fill="white" onmousedown="colourChange(this)"></rect>
+	{5}
 	'''
 	row_data = data[0][:]
 	col_data = data[1][:]
@@ -84,12 +84,13 @@ def puzz_temp(data, width, height):
 	y = starty
 	for row in range(height):
 		for col in range(width):
-			cell = celltemplate.format(x, y, 15, '{0}')
+			cell = celltemplate.format(x, y, 15, col, row, '{0}')
 			grid = grid.format(cell)
 			x += 15
 		y += 15
 		x = startx
 	grid = grid.format('')
+	print('done')
 	return grid
 
 

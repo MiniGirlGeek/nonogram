@@ -95,3 +95,7 @@ div.puzzle_frame::before {
   margin-left: -50px;
   display: block;
 }
+
+#puzzle_temp {
+	margin-bottom: 15px;
+}

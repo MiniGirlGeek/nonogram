@@ -91,6 +91,7 @@ def solve_env(puzz_id):
 @app.route('/create', methods=['POST', 'GET'])
 def create():
 	if request.method == 'POST':
+		conn = mysql.connect()
 		result = check_for_cookie()
 		userID = result[1]
 		title = request.form['title']
@@ -99,7 +100,7 @@ def create():
 		answer = request.form['data']
 		data = nonogram.process(request.form['data'], width, height)
 		puzztemplate = nonogram.turn_into_template(data, width, height)
-		database.submit_new_puzzle(conn, authorID, title, puzztemplate, answer, width, height)
+		database.submit_new_puzzle(conn, userID, title, puzztemplate, answer, width, height)
 		mg = "Success! Thank you for your contribution."
 		return render_template("result.html", msg=mg, links=check_for_cookie()[0])
 	else:

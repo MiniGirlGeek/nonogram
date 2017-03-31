@@ -9,11 +9,11 @@
           <div id="puzzle-info" style="display:inline-block; float: right; width: 200px;">
             Title: <input id="title" name='title' type="text" required>
             <br/>
-            Width: <input id='width'  name="width" type="number" value="10" step="1" min="1">
+            Width: <input id='width'  name="width" type="number" value="10" step="1" min="1" max="151" patten="\d*" required>
             <br/>
-            Height: <input id='height' name="height" type="number" value="10" step="1" min="1">
+            Height: <input id='height' name="height" type="number" value="10" step="1" min="1" max="151" patten="\d*" required>
             <br/>
-            Cell Size: <input id='length' name='length' type="number" value="15" step="5" min="5" max="50">
+            Cell Size: <input id='length' name='length' type="number" value="15" step="5" min="5" max="50" required>
             <button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value, getElementById('length').value)">Generate New Grid</button>
       			<button type="button" onclick="post()">Save</button>
           </div>

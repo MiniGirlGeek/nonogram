@@ -42,7 +42,7 @@ ul#navbar {
 }
 
 .gallery {
-  float: left;
+  /*float: left;*/
   margin-left: auto;
   margin-right: auto;
   position:relative;
@@ -69,20 +69,21 @@ ul#navbar li a {
 }
 
 .puzzle_template {border: solid transparent;
-  border-width: 24px;
+  border-width: 25px;
+	border-style: solid;
   /*border-radius: 40px;*/
   padding: 5px;
   margin-right: 5px;
   margin-left: 5px;
   font-size: 50px;
-  -webkit-border-image: url('/static/images/pixel-frame.svg') 25%  stretch; /* Safari 3.1-5 */
-  -o-border-image: url('/static/images/pixel-frame.svg') 25%  stretch; /* Opera 11-12.1 */
-  border-image: url('/static/images/pixel-frame.svg') 25%  stretch;
+  -webkit-border-image: url('/static/images/pixel-frame.svg') 25%  round; /* Safari 3.1-5 */
+  -o-border-image: url('/static/images/pixel-frame.svg') 25%  round; /* Opera 11-12.1 */
+  border-image: url('/static/images/pixel-frame.svg') 25%  round;
   margin-bottom: 15px;
 }
 
 div.puzzle_frame {
-  float: left;
+  /*float: left;*/
 }
 
 div.puzzle_frame::before {

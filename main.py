@@ -1,20 +1,25 @@
 from flask import Flask, request, render_template
 from flask import make_response
-import pymysql, draw
-import nonogram, random, database
+import pymysql
 from flask.ext.mysql import MySQL
-from flask.ext.flask_bcrypt import Bcrypt
-import ast
+from flask_bcrypt import Bcrypt
+#imports from the python standard library
+import ast, random
+#imports from other python files I've written
+import nonogram, random, database, draw
 
-
+#setting up flask
 app = Flask(__name__)
+#setting up MySQL
 mysql = MySQL()
+#setting up the database credentials and getting the MySQL library to work with the flask libray
 app.config['MYSQL_DATABASE_HOST'] = "localhost"
 app.config['MYSQL_DATABASE_USER'] = "nonogramuser"
 app.config['MYSQL_DATABASE_PASSWORD'] = "puzzle"
 app.config['MYSQL_DATABASE_DB'] = "nonogram"
-bcrypt = Bcrypt(app)
 mysql.init_app(app)
+#setting up the bcrpt library to work with flask
+bcrypt = Bcrypt(app)
 
 loggedin = '''<li><a href="/create">create</a></li>
 			  <li><a href="/logout">logout</a></li>'''
@@ -129,7 +134,7 @@ def addrec():
 			salt = generate_salt()
 			password = bcrypt.generate_password_hash(pswd + salt).decode('utf-8')
 			database.create_user(conn, unm, nm, dob, password, email, salt)
-			msg = "Sucess!"
+			msg = "	success!"
 		except pymysql.err.IntegrityError:
 			msg = "Sorry that username is already taken! Please try again."
 		finally:

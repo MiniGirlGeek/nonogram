@@ -105,7 +105,7 @@ def puzzle_prev(puzz_index, puzz_no, puzz_id, data, width, height):
 	<a href="{0}"><button>previous</button></a>
 	<a href="/solve/{1}">
 	<div class="puzzle_frame" width="{2}" height="{3}">
-	<svg class="puzzle_template" width="{2}" height="{3}">
+	<svg class="puzzle_template" width="{2}" height="{3}" style="vertical-align:middle;">
 	{4}
 	</svg>
 	</div>

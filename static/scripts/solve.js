@@ -7,7 +7,7 @@ var rows;
 var nextState;
 var wide = 15;
 var coords;
-var colours = ["rgb(255, 255, 255)", "rgb(0, 0, 0)", "url(#cross)"]
+var colours = ["rgb(255, 255, 255)", "rgb(35, 35, 35)", "url(#cross)"]
 
 function format2D(a) {
     var str="";
@@ -32,7 +32,7 @@ function post() {
 						}
 				}
 		}
-		
+
 		var form = document.getElementById("nonogram");
 		var hiddenField = document.createElement("input");
 		hiddenField.setAttribute("type", "hidden");

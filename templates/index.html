@@ -1,3 +1,38 @@
 {%include 'header.html'%}
+<style>
+.columns li {
+    display: inline-block;
+		width: 330px;
+		margin: 5px;
+		vertical-align: top;
+}
+
+.columns {
+	padding: 0px;
+}
+</style>
 <h1>Welcome puzzle nerds.</h1>
+<h2>What even is a Nonogram anyway?</h2>
+A Nonogram is a puzzle that originated in Japan. They're logic based puzzles, that involve using clues to reveal a hidden picture. It comprises of a grid, which is where the picture will go, and you need to decide which cells need to be coloured, and which should remain blank. The numbers around the edges help you decide what to do.
+<h2>How on earth do I go about solving one?</h2>
+The numbers on the edge of a nonogram indicate the groups of coloured cells present in a row or column.
+<ul class="columns">
+	<li><h3> Tip 1 </h3>
+	<img src="static/images/example-1.png" align="left"/> Because each colum contains a single group of length 1, and the row has a single group of length 5, the entire row can be filled in.</li>
+	<li><h3> Tip 2 </h3>
+	On a larger grid you can apply this method by filling in any full rows.
+	<br/><img src="static/images/fill-in-full-rows.png"/>
+	<br/> If a full row lies on the edge of the grid you can 'push off' from the edge and complete the first group in that particular row or column.
+	<br/><img src="static/images/push-from-side.png"/>
+	<br/> The next step is to mark crosses, you can do this either side of a completed group and on completed rows / columns<br/>
+	<img src="static/images/mark-x.png"/>
+	<br/>Then simply fill out the rest.
+	<br/><img src="static/images/ta-da.png"/>
+	</li>
+	<li><h3> Tip 3 </h3>
+		If a row / column isn't full, you can check to see if the groups overlap. Draw both extremes of the group arrangements, where a group overlaps with itself you know those cells have to be filled in. <br/>
+		<img src="static/images/overlap.png"/>
+	</li>
+</ul>
+<br>
 {%include 'footer.html'%}

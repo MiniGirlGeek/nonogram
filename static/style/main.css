@@ -82,10 +82,6 @@ ul#navbar li a {
   margin-bottom: 15px;
 }
 
-div.puzzle_frame {
-  /*float: left;*/
-}
-
 div.puzzle_frame::before {
   content: url("/static/images/pixel-frame-decorator.svg");
   position: relative;

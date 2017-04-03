@@ -45,7 +45,8 @@ def add_cookie(conn, cookie, username):
 	expire = time.time() + 3600 #3600 is the time in seconds the cookie is valid for
 	cursor.execute("SELECT usersID FROM users WHERE username=\'{0}\';".format(username))
 	userID = cursor.fetchone()[0]
-	cursor.execute("INSERT INTO cookies (cookie, usersID, expiration_date) VALUES (\'{0}\', {1}, {2})".format(cookie, userID, expire))
+	cursor.execute('''INSERT INTO cookies (cookie, usersID, expiration_date) 
+		              VALUES (\'{0}\', {1}, {2})'''.format(cookie, userID, expire))
 	conn.commit()
 
 def getuserID(conn, cookie):

@@ -1,3 +1,7 @@
+################################################################################################################
+# This file contains all the functions for processing the data from the create page to turn it into a nonogram #
+################################################################################################################
+
 import draw
 
 def turn_into_template(data, width, height):

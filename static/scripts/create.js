@@ -54,9 +54,12 @@ function continuedColourChange(element, colour) {
 function drawGrid(width, height, wide) {
 	if (confirm("Warning, if you have already started drawing this will clear your progress!") == true) {
 		var element = document.getElementById("svg");
+		var save = document.getElementById("save");
 		element.parentNode.removeChild(element);
 		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		var svgNS = svg.namespaceURI;
+		save.setAttribute('style', 'display:inline;')
+		console.log(save)
 
 		rows = [];
 		for (y = 0; y < height; y++) {

@@ -15,7 +15,7 @@
             <br/>
             Cell Size: <input id='length' name='length' type="number" value="15" step="5" min="5" max="50" required>
             <button type="button" onclick="drawGrid(getElementById('width').value, getElementById('height').value, getElementById('length').value)">Generate New Grid</button>
-      			<button type="button" onclick="post()">Save</button>
+      			<button id="save" style="display: none;" type="button" onclick="post()">Save</button>
           </div>
         </div>
   		</fieldset>
